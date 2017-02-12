@@ -1,0 +1,44 @@
+KNN is a very basic machine learning algorthim. Core advantages are simplicity, and no training times. We'll introduce it, and use it's simplicity to introduce some core ideas in machine learning. 
+
+The algorithm can be stated quite simply:
+    Given a set of datapoints with labels, and some new unlabelled point, find the k datapoints that are most similar to the new point. Of these k datapoints, find the label with the most points. That label then is our guess for the new data point. 
+
+So the core question then becomes, "How do we decide which points are most similar to this point we're curious about?"
+
+To answer this, we'll start by developing a mindset that is important to have in data science and machine learning. That is that we can interpret data from a geometric perspective. For data with a given number of attributes (n), we can represent it as n-dimensional vectors that sit in an vector space. This is not just a nice way to picture data, but the ground-work necessary to understand what makes many machine learning algorithms tick. For example, neural networks can be understood in the context of creating local distortions in this space in order to better separate data. 
+
+For now though, let's start with some basic examples: Suppose we have some data of people's heights, and whether or not that person was labelled tall. Maybe it looks something like:
+// 4'8'', short
+5'2'', short
+5'4'', short
+5'5'', short
+5'9'', tall
+5'10'', short
+5'11'', tall
+6'0'', tall
+6'2'', tall
+// 6'7'', tall
+
+We can chart this in a 2-D dimensional space, where one dimension is the label, which is a discrete value, and the other is height, which is a mostly real valued dimension.
+
+Now, we can ask questions about a new height, that is not in our data, and attempt to classify whether that would be considered tall or short. We can do this with k-nearest-neighbors. Let's suppose for a first round, that k = 1. Then we consider heights on the interval [0, 5'7'')u(5'9.5'', 5'10.5'') to be short and (5'7'', 5'9.5'')u(5'10'', infty) to be tall. 
+
+We can imagine doing the same sort of thing with a 2-D dimensional dataset. 
+
+Aside: The k = 1 case is interesting here, because we can produce something cool called a Voronoi diagram. See: https://en.wikipedia.org/wiki/Voronoi_diagram. 
+
+We can make some more observations:
+    -If we keep k small, then we are subject to more "noise." That is, if the are several points close to us, for k = 1, we simply pick the closet one, ignoring the fact that other close ones may be of a different class. 
+    -On the other hand, if we make k too large, then we ignore local detail in favor of global trends. We can easily show that as k grows large, we'll eventually always end up classifying points as which ever class is most common.
+    -Therefore, like many things in life, an optimal k, will likely be somewhere in the middle, and will very much depend on the data set. 
+
+So this leads us to important question, that we'll ask with respect to many algorithms we'll learn:
+    How do I find a good value of k?
+A general idea, is to try a bunch and hone on the best one. However, we want our choice of k to be based on the underlying structure of the data. Not the structure in addition to the noise of this particular sample. Being too sensitive to the noise in the particular sample is called over fitting.
+
+This leads to important ideas like splitting up of your data set, training vs validation vs testing sets. 
+
+
+We also need to consider an important limitation of kNN, and of most machine learning algorithms, and that is the curse of dimensionality. 
+
+In a rough way, this refers to how quickly the "volume" of a space grows as dimensions are added. For example, consider 50 points distributed on the number line from 0 to 100. We can create a metric of density by saying there are  
